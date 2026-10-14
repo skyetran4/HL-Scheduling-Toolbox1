@@ -13,7 +13,7 @@ const TEMPLATE_DATA = [
     templates: [
       {
         title: "Heartland Scheduling SMS Prompt",
-        text: "Message from Heartland Cardiology, you've been scheduled for a new patient appointment with [Dr. Name] on [Date & Time] at our [Location] location. Call us at (316) 686-5300, option 1 to reschedule."
+        text: "Message from Heartland Cardiology, you've been scheduled for a new patient appointment with Dr. [Name] on [Date & Time] at our [Location] location. Call us at (316) 686-5300, option 1 to reschedule."
       }
     ]
   },
