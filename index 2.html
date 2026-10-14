@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heartland Scheduling Toolbox</title>
+<style>
+:root{--bg:#fff3f7;--card:#fff;--tx:#3b1a2b;--mu:#8a5a72;--bd:#f5cfdd;--pr:#d6336c;--prt:#fff;--ac:#b0245a;--gn:#17794a;--gnb:#e1f5ea;--am:#8a5a00;--amb:#fff1d6;--rd:#a3182a;--rdb:#fde4e7;--bl:#1d56b3;--blb:#e2ecfb;--pu:#6b3fb0;--pub:#eee5fb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1220;--card:#3a1a2d;--tx:#ffe9f1;--mu:#d9a7be;--bd:#5c2c47;--pr:#f06292;--ac:#f06292;--gn:#5fd39a;--gnb:#12392a;--am:#f0c060;--amb:#3b2d0c;--rd:#ff8e9b;--rdb:#41151c;--bl:#8cb4f5;--blb:#14284a;--pu:#c3a3f2;--pub:#2c1f47}}
+:root[data-theme="dark"]{--bg:#2a1220;--card:#3a1a2d;--tx:#ffe9f1;--mu:#d9a7be;--bd:#5c2c47;--pr:#f06292;--ac:#f06292;--gn:#5fd39a;--gnb:#12392a;--am:#f0c060;--amb:#3b2d0c;--rd:#ff8e9b;--rdb:#41151c;--bl:#8cb4f5;--blb:#14284a;--pu:#c3a3f2;--pub:#2c1f47}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:linear-gradient(135deg,#ff7aa8,#d6336c 55%,#a61e4d);color:#fff;padding:14px 18px;position:relative;overflow:hidden}header h1{margin:0;font-size:19px}header p{margin:2px 0 0;font-size:13px;opacity:.92}
+header::after{content:"💕 💗 💘";position:absolute;right:14px;top:10px;font-size:22px;opacity:.55;letter-spacing:4px}
+@media (max-width:520px){header::after{display:none}}
+nav{display:flex;gap:6px;padding:10px 14px;background:var(--card);border-bottom:2px solid var(--bd);overflow-x:auto;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav button{border:1px solid var(--bd);background:var(--bg);color:var(--tx);padding:8px 14px;border-radius:20px;font-size:14px;cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+main{max-width:980px;margin:0 auto;padding:14px}.page{display:none}.page.on{display:block}
+.card{background:var(--card);border:1px solid var(--bd);border-top:3px solid #f48fb1;border-radius:12px;padding:14px;margin-bottom:12px}
+.card h2{margin:0 0 8px;font-size:16px}.card h3{margin:0 0 6px;font-size:14px}
+.step{display:inline-block;background:var(--pr);color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;font-size:13px;line-height:22px;margin-right:6px}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font-size:15px}
+input[type=text]:focus{outline:2px solid var(--pr);outline-offset:1px}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);padding:8px 13px;border-radius:10px;font-size:14px;cursor:pointer}
+.chip.on{border-color:var(--pr);background:var(--pr);color:#fff}
+.b{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:12px;margin:2px 3px 2px 0;font-weight:600}
+.b.g{background:var(--gnb);color:var(--gn)}.b.a{background:var(--amb);color:var(--am)}.b.r{background:var(--rdb);color:var(--rd)}.b.i{background:var(--blb);color:var(--bl)}.b.p{background:var(--pub);color:var(--pu)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.prov{border:1px solid var(--bd);border-radius:10px;padding:11px;background:var(--bg)}.prov.hide{display:none}
+.prov b{font-size:15px}.mu{color:var(--mu);font-size:13px}
+a.btn,button.btn{display:inline-block;background:var(--ac);color:#fff;text-decoration:none;border:0;border-radius:8px;padding:6px 11px;font-size:13px;cursor:pointer;margin:4px 4px 0 0}
+a.btn.alt,button.btn.alt{background:var(--bg);color:var(--tx);border:1px solid var(--bd)}
+.alert{border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:14px}.alert.r{background:var(--rdb);color:var(--rd)}.alert.a{background:var(--amb);color:var(--am)}.alert.i{background:var(--blb);color:var(--bl)}
+.loc{border:1px solid var(--bd);border-radius:10px;padding:10px;background:var(--bg)}.loc.sel{border-color:var(--pr);box-shadow:0 0 0 2px var(--pr) inset}
+iframe{width:100%;height:80vh;border:1px solid var(--bd);border-radius:10px;background:#fff}
+li{margin-bottom:4px}
+</style></head><body>
+<header><h1>💖 Heartland Scheduling Toolbox</h1><p>Provider &amp; location helper · Rules reference · Copy Tool</p></header>
+<nav id="nav"></nav>
+<main>
+<div class="alert a" style="margin-bottom:12px" id="disc">⚠️ <b>Disclaimer:</b> Provider locations vary week to week. This tool is a guide based on a typical weekly schedule — <b>always verify the provider's location and open blocks in eCW before scheduling.</b></div>
+<!-- PAGE 1 -->
+<section class="page" id="p-locator">
+<div class="card"><h2><span class="step">1</span>Patient address</h2>
+<input type="text" id="addr" placeholder="Street, city, state, zip (e.g. 123 Main St, Wichita, KS 67226)">
+<p class="mu" style="margin:6px 0 0">Press Enter or the button to sort clinics by distance and build map routes.</p><div class="row" style="margin-top:8px"><button class="btn" id="geob">📍 Find closest clinics</button></div><div class="mu" id="gstat" style="margin-top:4px"></div></div>
+
+<div class="card"><h2><span class="step">2</span>Patient &amp; referral type</h2>
+<div class="row" id="ptype"></div>
+<h3 style="margin-top:12px">Special situations (tap any that apply)</h3>
+<div class="row" id="flags"></div></div>
+
+<div class="card"><h2><span class="step">3</span>Referred to a specific provider?</h2>
+<input type="text" id="search" placeholder="Search provider name (leave blank if none specified)">
+<div class="row" style="margin-top:8px"><button class="chip" id="clr">Clear search</button></div></div>
+
+<div class="card"><h2><span class="step">4</span>Referred to a specific location?</h2>
+<div class="row" id="locchips"></div><p class="mu" style="margin:8px 0 0">Choosing a location shows only providers who practice there (use the day filter below to narrow further).</p></div>
+<div id="alerts"></div>
+
+<div class="card"><h2><span class="step">5</span>Closest clinics to the patient</h2>
+<div class="grid" id="locs"></div>
+<div class="row" style="margin-top:8px"><button class="chip" id="clrloc">Show all locations</button></div>
+<h3 style="margin-top:12px">Filter by day (optional)</h3><div class="row" id="days"></div></div>
+<div class="card" id="mapcard" style="display:none"><h2>🗺 Distance &amp; route</h2><div class="mu" id="mapt"></div>
+<iframe id="mapf" title="Map" style="height:380px;margin-top:8px" loading="lazy"></iframe>
+<a class="btn alt" id="mapx" target="_blank" rel="noopener">Open in Google Maps ↗</a></div>
+
+<div class="card"><h2><span class="step">6</span>Providers you can schedule</h2><p class="mu" style="margin-top:0">Based on the typical weekly schedule — verify in eCW.</p>
+<p class="mu" id="sub" style="margin-top:0"></p><div class="grid" id="provs"></div></div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page" id="p-rules">
+<div class="card"><h2>General scheduling rules</h2><ul>
+<li>NP = new patient: totally new to the clinic <b>or</b> not seen in 3 years.</li>
+<li>Only <b>1 NP per time slot</b>, and <b>no NPs in the last hour</b> of the clinic (longer appts).</li>
+<li>Any slot with any provider works — no matching by insurance or clinical presentation.</li>
+<li>Check for an upcoming encounter first: if it is more than 3 months away (or the referral is STAT/Urgent), continue scheduling.</li>
+<li>Always double-check the location on community clinic appointments.</li>
+<li>Provider doesn't practice at the 3 closest locations? Use Google Maps to find the closest location they do practice at.</li>
+<li>No provider specified for a new patient: Mohamed, Alkawaleet, Gedela, or Boppana.</li></ul></div>
+<div class="card"><h2>Urgent / STAT / ASAP</h2><ul>
+<li>No availability within ~5 business days → Tel Enc to Referrals,Staff.</li>
+<li>Do <b>not</b> schedule within 48 hours (needs nurse approval).</li>
+<li>Scheduling within 48–72 hours → Tel Enc to the provider's staff to prep the chart.</li>
+<li>Nothing for 2 months with a specific provider/clinic: may break double/triple-booking rules unless the block max is reached (still 1 NP per slot, no NP in last hour).</li></ul></div>
+<div class="card"><h2>Recent updates</h2><ul>
+<li><b>09/29/2026</b> – Bakdash and Shaheen: may convert an Established slot to a New Patient slot if no NP slots are available. They are the only two.</li>
+<li><b>06/18/2026</b> – Assem Farhat: NPs, hospital f/u's and urgent add-ons on Wed/Thu afternoons only; Derby on the 3rd Wednesday.</li>
+<li>Al-Tabbal does not take new patients in Newton — schedule at another location.</li>
+<li>Gedela clips/Watchman: if no slot within 2 weeks → Gedela,Scheduling (high priority). TAVR: don't schedule, urgent Tel Enc to Gedela,Scheduling.</li></ul></div>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page" id="p-copy">
+<div class="card"><h2>Heartland Cardiology Copy Tool</h2>
+<p class="mu" style="margin-top:0">Your original tool, unchanged, shown exactly as it is hosted.</p>
+<a class="btn" href="https://skyetran4.github.io/HL-Copy-Tool1/" target="_blank" rel="noopener">Open in new tab ↗</a></div>
+<iframe src="https://skyetran4.github.io/HL-Copy-Tool1/" title="HL Copy Tool"></iframe>
+</section>
+</main>
+<script>
+var PAGES=[["locator","📍 Provider Locator"],["rules","📋 Rules"],["copy","📄 Copy Tool"]];
+var nav=document.getElementById("nav");
+PAGES.forEach(function(p){var b=document.createElement("button");b.textContent=p[1];b.dataset.p=p[0];b.onclick=function(){go(p[0])};nav.appendChild(b)});
+function go(id){PAGES.forEach(function(p){document.getElementById("p-"+p[0]).classList.toggle("on",p[0]===id)});
+[].forEach.call(nav.children,function(b){b.classList.toggle("on",b.dataset.p===id)});try{history.replaceState(null,"","#"+id)}catch(e){}window.scrollTo(0,0)}
+go(PAGES.some(function(p){return "#"+p[0]===location.hash})?location.hash.slice(1):"locator");
+
+var LOCS={
+Webb:"3535 N. Webb Rd. Wichita, KS 67226",West:"9000 W. Central Wichita, KS 67212",Derby:"1719 E. Cambridge, Ste 101 Derby, KS 67037",Newton:"1525 N Main St Newton, KS 67114",
+"Anthony":"485 N KS Hwy 2 Anthony, KS 67003","El Dorado":"700 W Central El Dorado, KS 67042",
+"Marion":"537 S. Freeborn St. Marion, KS 66861","Minneola":"212 Main St. Minneola, KS 67865",
+"Kingman":"750 West D Ave Kingman, KS 67201","McPherson":"1000 Hospital Drive, McPherson, KS 67460","Moundridge":"200 East Pack, Moundridge, KS 67107"};
+var CORE=["Webb","West","Derby","Newton"],DAYS=["Mon","Tue","Wed","Thu","Fri"];
+// schedule slots: MonAM,MonPM,TueAM,TuePM,WedAM,WedPM,ThuAM,ThuPM,FriAM,FriPM
+var PROV=[
+{n:"Dr. Yazan Alkawaleet",i:"YA",g:1,s:["Webb/Derby","Webb","Webb","Webb","Webb","Webb","West","","Webb/McPherson","Moundridge"]},
+{n:"Dr. Husam Bakdash",i:"HB",ex:1,s:["West","","West","Webb","El Dorado","Webb","Webb","Webb/Anthony","West","Derby"]},
+{n:"Dr. Ryan Beard",i:"RSB",s:["","","","","","","","","Webb","Webb"]},
+{n:"Dr. Venkata Boppana",i:"VSB",g:1,s:["West/Marion","Derby","West","Webb","Webb/Minneola","Derby","","West","Webb","Webb"]},
+{n:"Dr. Saad (Mohamed S.) Farhat",i:"SZF",s:["Newton","Webb/West","Derby","","Webb","Webb","","Newton","Webb",""]},
+{n:"Dr. Assem Farhat",i:"AZF",af:1,s:["West","","","Webb","","Webb/Derby/West","Webb","Webb","",""]},
+{n:"Dr. Hussam Farhoud",i:"HF",s:["Derby","","Kingman","Webb/West","Webb","Webb","Webb","Webb","Webb","Webb/West"]},
+{n:"Dr. Shilpa Kshatriya",i:"SK",s:["Webb","Webb","Webb/Newton","Webb","Webb/Derby","Webb","Webb","Webb","West",""]},
+{n:"Dr. Maheedhar Gedela",i:"MG",g:1,ge:1,s:["Webb","Webb","","","","","Derby","","Webb","West/McPherson"]},
+{n:"Dr. Ahmed Mohamed",i:"AM",g:1,s:["","","Webb","Webb","","Webb","West","","Derby","Webb"]},
+{n:"Dr. Wassim Shaheen",i:"WHS",ex:1,s:["Webb","Newton","Webb","Derby","West","West","Webb","Webb","Webb","Webb"]},
+{n:"Dr. Ghiyath Al-Tabbal",i:"GT",at:1,s:["","","Webb","West","","Newton","Webb","Derby","","Newton"]}];
+PROV.forEach(function(p){p.l=[];p.s.forEach(function(c){c.split("/").forEach(function(x){if(x&&p.l.indexOf(x)<0)p.l.push(x)})})});
+function worksAt(p,loc,d){return p.s.some(function(c,k){return(d==null||Math.floor(k/2)===d)&&c.split("/").indexOf(loc)>-1})}
+var PT=[["np","🆕 New patient"],["ep","🔁 Established patient"]];
+var FL=[["urg","🚨 STAT / Urgent / ASAP"],["clip","Gedela: Mitral/Tri-clip / Watchman / LAOO"],["tavr","Gedela: TAVR"],["ped","Under 18"],["tr","Needs translation"],["inm","Inmate / Transplant"],["tele","Telemed request"],["img","Imaging requested"],["clr","Clearance (established pt)"]];
+var S={pt:"np",fl:{},loc:null,q:"",day:null,mapsrc:""};
+function mk(box,arr,single){var el=document.getElementById(box);el.innerHTML="";arr.forEach(function(a){var b=document.createElement("button");b.className="chip";b.textContent=a[1];b.dataset.k=a[0];b.onclick=function(){if(single)S.pt=a[0];else S.fl[a[0]]=!S.fl[a[0]];render()};el.appendChild(b)})}
+mk("ptype",PT,1);mk("flags",FL,0);
+var de=document.getElementById("days");DAYS.forEach(function(d,k){var b=document.createElement("button");b.className="chip";b.textContent=d;b.dataset.d=k;b.onclick=function(){S.day=S.day===k?null:k;render()};de.appendChild(b)});
+document.getElementById("search").oninput=function(e){S.q=e.target.value.toLowerCase();render()};
+document.getElementById("clr").onclick=function(){document.getElementById("search").value="";S.q="";render()};
+document.getElementById("clrloc").onclick=function(){S.loc=null;render()};
+var COORD={Webb:[37.752,-97.249],West:[37.692,-97.458],Derby:[37.545,-97.269],Newton:[38.056,-97.345],Anthony:[37.156,-98.03],"El Dorado":[37.817,-96.867],Marion:[38.338,-97.023],Minneola:[37.441,-100.01],Kingman:[37.646,-98.12],McPherson:[38.379,-97.67],Moundridge:[38.2,-97.528]};
+function hav(a,b){var R=3958.8,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r,x=Math.pow(Math.sin(dl/2),2)+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.pow(Math.sin(dn/2),2);return 2*R*Math.asin(Math.sqrt(x))}
+function dist(k){return S.pc?hav(S.pc,COORD[k]):null}
+function locKeys(){var k=Object.keys(LOCS);if(S.pc)k.sort(function(a,b){return dist(a)-dist(b)});return k}
+function near(p){var m=1e9;p.l.forEach(function(x){if(S.loc&&x!==S.loc)return;var d=dist(x);if(d!=null&&d<m)m=d});return m}
+function nearTag(p){if(!S.pc)return"";var best=null,m=1e9;p.l.forEach(function(x){if(S.loc&&x!==S.loc)return;var d=dist(x);if(d<m){m=d;best=x}});return best?'<span class="b g">Nearest: '+best+' ≈ '+Math.round(m)+' mi</span>':""}
+function gst(t){document.getElementById("gstat").textContent=t}
+S.pc=null;
+function geo(){var ad=addr();if(!ad){S.pc=null;gst("");render();return}gst("Finding patient location…");
+fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q="+encodeURIComponent(ad)).then(function(r){return r.json()}).then(function(j){if(j&&j[0]){S.pc=[+j[0].lat,+j[0].lon];gst("✓ Sorted by straight-line distance from the address (approximate). Use the map for drive time.")}else{S.pc=null;gst("Couldn't find that address — check spelling or add city/zip.")}render()}).catch(function(){S.pc=null;gst("Couldn't look up the address from here (auto-sort works when hosted on GitHub Pages). Map buttons still work.");render()})}
+document.getElementById("addr").onchange=geo;document.getElementById("addr").onkeydown=function(e){if(e.key==="Enter")geo()};document.getElementById("geob").onclick=geo;
+function addr(){return document.getElementById("addr").value.trim()}
+function badges(p){var np=S.pt==="np",h="";
+if(p.g&&np)h+='<span class="b g">✓ Default NP group (no provider specified)</span>';
+else if(np)h+='<span class="b a">Only if referred by name</span>';
+if(p.ex&&np)h+='<span class="b p">NP slot full? Convert EP → NP slot</span>';
+if(p.at&&np)h+='<span class="b r">No new pts in Newton</span>';
+if(p.af)h+='<span class="b a">NP / hosp f/u / urgent add-on: Wed &amp; Thu PM only</span><span class="b i">Derby: 3rd Wednesday</span>';
+if(p.ge)h+='<span class="b i">Clips / Watchman / LAOO / TAVR (special rules)</span>';
+if(np)h+='<span class="b i">1 NP/slot · no NP last hour</span>';
+if(p.l.some(function(x){return CORE.indexOf(x)<0}))h+='<span class="b a">Community clinic — verify location</span>';
+return h}
+function grid(p){var t='<details><summary class="mu" style="cursor:pointer">Typical weekly schedule</summary><div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:11.5px;width:100%"><tr><th></th>'+DAYS.map(function(d){return'<th style="padding:2px 4px;text-align:left">'+d+'</th>'}).join("")+'</tr>';
+["AM","PM"].forEach(function(ap,r){t+='<tr><td class="mu" style="padding:2px 4px">'+ap+'</td>';DAYS.forEach(function(d,k){var c=p.s[k*2+r];var hit=S.loc&&c.split("/").indexOf(S.loc)>-1;t+='<td style="padding:2px 4px;border:1px solid var(--bd);'+(hit?'background:var(--gnb);color:var(--gn);font-weight:700':'')+'">'+(c.replace(/\//g," / ")||"–")+'</td>'});t+='</tr>'});
+return t+'</table></div></details>'}
+function alerts(){var a=[];function add(c,t){a.push('<div class="alert '+c+'">'+t+'</div>')}
+var f=S.fl;
+if(f.tavr)add("r","<b>Gedela TAVR:</b> do NOT schedule. Send an <b>urgent</b> Tel Enc to <b>Gedela, Scheduling</b> (mark high priority).");
+if(f.clip)add("a","<b>Gedela clips / Watchman / LAOO:</b> schedule with Dr. Gedela. If no appt within 2 weeks, send Tel Enc (high priority) to <b>Gedela, Scheduling</b>.");
+if(f.urg)add("r","<b>Urgent:</b> find a slot within ~5 business days. Never within 48 hrs (nurse approval). 48–72 hrs → Tel Enc to provider's staff to prep chart. Nothing in 5 days → Tel Enc to Referrals,Staff.");
+if(f.ped)add("a","<b>Under 18:</b> don't schedule — Tel Enc to Referrals,Staff (case-by-case).");
+if(f.tr)add("a","<b>Translation needed:</b> don't schedule — Tel Enc to Referrals,Staff. Location: requested, or Webb.");
+if(f.inm)add("a","<b>Inmate / Transplant:</b> don't schedule — Tel Enc to Referrals,Staff (inmates &amp; St. Luke's transplants → Goyette, Melissa).");
+if(f.tele)add("a","<b>Telemed request:</b> don't schedule — Tel Enc to Referrals,Staff.");
+if(f.img)add("a","<b>Imaging requested:</b> don't schedule — Imaging Tel Enc to Referrals,Staff.");
+if(f.clr)add("a","<b>Established-pt clearance:</b> don't schedule — Tel Enc to Referrals,Staff using the EP Clearance template.");
+if(S.loc){add("i","<b>Referred to "+S.loc+":</b> find the first open block where the provider is at "+S.loc+" (5-day view helps). Double-check the location on the appointment.");
+if(S.loc==="Newton"&&S.pt==="np")add("r","<b>Al-Tabbal does not take new patients in Newton</b> — schedule him at another location if referred there.");
+if(S.loc==="Derby")add("i","<b>Dr. Assem Farhat</b> practices at Derby on the 3rd Wednesday of the month (new patients Wed/Thu afternoons).")}
+if(S.pt==="ep")add("i","<b>Established patient:</b> if seen by an HL provider (checked-out office visit) within 3 yrs, keep the rendering provider. A different receiving provider → skip scheduling, create an Action “confirm provider switch” to Referrals,Staff.");
+document.getElementById("alerts").innerHTML=a.join("")}
+function showMap(k){S.loc=k;render();var m=document.getElementById("mapcard");m.scrollIntoView({behavior:"smooth",block:"nearest"})}
+function render(){
+[].forEach.call(document.querySelectorAll("#ptype .chip"),function(b){b.classList.toggle("on",b.dataset.k===S.pt)});
+[].forEach.call(document.querySelectorAll("#flags .chip"),function(b){b.classList.toggle("on",!!S.fl[b.dataset.k])});
+[].forEach.call(document.querySelectorAll("#days .chip"),function(b){b.classList.toggle("on",+b.dataset.d===S.day)});
+alerts();
+var lc=document.getElementById("locchips");lc.innerHTML="";
+[null].concat(Object.keys(LOCS)).forEach(function(k){var b=document.createElement("button");b.className="chip"+((S.loc||null)===k?" on":"");b.textContent=k||"No specific location";b.onclick=function(){S.loc=k;render()};lc.appendChild(b)});
+var L=document.getElementById("locs");L.innerHTML="";
+locKeys().forEach(function(k,ix){var d=document.createElement("div");d.className="loc"+(S.loc===k?" sel":"");
+var n=PROV.filter(function(p){return worksAt(p,k,S.day)}).length;
+d.innerHTML="<b>"+k+'</b><div class="mu">'+LOCS[k]+'</div>'+(dist(k)!=null?'<div><span class="b g">≈ '+Math.round(dist(k))+' mi'+(ix<3?' · #'+(ix+1)+' closest':'')+'</span></div>':'')+'<div class="mu">'+n+" provider"+(n===1?"":"s")+(S.day!=null?" on "+DAYS[S.day]:"")+'</div>';
+var s=document.createElement("button");s.className="btn alt";s.textContent=S.loc===k?"✓ Filtering":"Filter providers";s.onclick=function(){S.loc=S.loc===k?null:k;render()};d.appendChild(s);
+var a=document.createElement("button");a.className="btn";a.textContent="🗺 Show distance";a.onclick=function(){showMap(k)};d.appendChild(a);L.appendChild(d)});
+var mc=document.getElementById("mapcard");
+if(S.loc){mc.style.display="";var ad=addr();var src=ad?"https://maps.google.com/maps?saddr="+encodeURIComponent(ad)+"&daddr="+encodeURIComponent(LOCS[S.loc])+"&output=embed":"https://maps.google.com/maps?q="+encodeURIComponent(LOCS[S.loc])+"&output=embed";
+document.getElementById("mapt").textContent=ad?"From "+ad+" → "+S.loc+" ("+LOCS[S.loc]+")":"Enter the patient's address in step 1 to see distance & drive time. Showing "+S.loc+".";
+if(src!==S.mapsrc){S.mapsrc=src;document.getElementById("mapf").src=src}
+document.getElementById("mapx").href=src.replace("&output=embed","").replace("maps.google.com/maps","www.google.com/maps")}else mc.style.display="none";
+var P=document.getElementById("provs");P.innerHTML="";var c=0,gOnly=S.fl.clip||S.fl.tavr;
+var PL=PROV.slice();if(S.pc)PL.sort(function(a,b){return near(a)-near(b)});
+PL.forEach(function(p){
+if(S.q&&(p.n+" "+p.i).toLowerCase().indexOf(S.q)<0)return;
+if(S.loc&&!worksAt(p,S.loc,S.day))return;
+if(!S.loc&&S.day!=null&&!p.s[S.day*2]&&!p.s[S.day*2+1])return;
+if(gOnly&&!p.ge)return;
+if(S.pt==="np"&&S.loc==="Newton"&&p.at)return;
+c++;var d=document.createElement("div");d.className="prov";
+var ls=p.l.map(function(x){return '<button class="btn alt" data-l="'+x+'">'+x+' 🗺</button>'}).join("");
+d.innerHTML="<b>"+p.n+'</b> <span class="mu">('+p.i+")</span><div>"+nearTag(p)+badges(p)+'</div><div class="mu" style="margin-top:4px">Practices at (tap for map):</div>'+ls+grid(p);
+[].forEach.call(d.querySelectorAll("button[data-l]"),function(b){b.onclick=function(){showMap(b.dataset.l)}});P.appendChild(d)});
+if(!c)P.innerHTML='<p class="mu">No providers match. Try clearing the search, day or location filter.</p>';
+document.getElementById("sub").textContent=(S.q?"Search: “"+S.q+"” · ":"No provider specified: use the default NP group (Mohamed, Alkawaleet, Gedela, Boppana) · ")+(S.loc?"Location: "+S.loc+" · ":"")+(S.day!=null?DAYS[S.day]+" · ":"")+c+" shown"}
+render();
+</script>
+</body></html>
